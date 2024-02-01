@@ -1,17 +1,17 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { ref, computed } from 'vue';
 
-const SERVERS = [
-  {
-    name: 'game2cube',
-    endpoint: 'https://game2cube-backend.onrender.com/user/avatars',
-  },
-  {
-    name: 'portfolio',
-    endpoint: 'https://portfolio-okir-backend.onrender.com/projects',
-  },
-];
-const TIMER_DELAY = 870000; // 14.5 min
+const SERVERS = process.env.VUE_APP_SERVERS_DATA || null;
+// пример переменной окружения (Enviroment Variables)
+// [
+//   {
+//     name: 'your-project-name',
+//     endpoint: 'https://your-website.onrender.com/api/path',
+//   },
+// ];
+const TIMER_DELAY = process.env.VUE_APP_SERVERS_DATA || null;
+
+if (!SERVERS || !TIMER_DELAY) return;
 
 let intervalFetch = null;
 let intervalTimer = null;
@@ -42,7 +42,7 @@ const serversFetch = async () => {
         endpointStats.value[server.endpoint]++;
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   }
   requestCount.value++;
@@ -56,9 +56,7 @@ const startIntervals = () => {
   intervalTimer = setInterval(() => {
     secondsPassed.value++;
   }, 1000);
-  console.log(1);
   serversFetch();
-  console.log(4);
   intervalFetch = setInterval(async () => {
     serversFetch();
   }, TIMER_DELAY);
@@ -87,7 +85,7 @@ const timeRamaining = computed(() => {
 </script>
 
 <template>
-  <section>
+  <section v-if="SERVERS && TIMER_DELAY">
     <div class="control-panel">
       <button class="control-button" v-on:click="toggleInterval">
         {{ intervalFetch ? 'Stop' : 'Start' }} service
@@ -106,6 +104,15 @@ const timeRamaining = computed(() => {
         </li>
       </ul>
     </div>
+  </section>
+  <section v-else>
+    <p>
+      Задайте переменные окружения VUE_APP_SERVERS_DATA, VUE_APP_TIMER_DELAY
+    </p>
+    <p>
+      Подробней -&nbsp;
+      <a href="https://github.com/Fastor1us/onrender-wakeup">README.md</a>
+    </p>
   </section>
 </template>
 
