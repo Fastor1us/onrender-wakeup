@@ -11,8 +11,6 @@ const SERVERS = process.env.VUE_APP_SERVERS_DATA || null;
 // ];
 const TIMER_DELAY = process.env.VUE_APP_SERVERS_DATA || null;
 
-if (!SERVERS || !TIMER_DELAY) return;
-
 let intervalFetch = null;
 let intervalTimer = null;
 const requestCount = ref(0);
@@ -21,6 +19,7 @@ const secondsPassed = ref(0);
 const fetchStatus = ref('');
 
 const resetEndpointStats = () => {
+  if (!SERVERS) return;
   for (const server of SERVERS) {
     endpointStats.value[server.endpoint] = 0;
   }
