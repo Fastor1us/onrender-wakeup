@@ -4,13 +4,13 @@
 
 Что нужно сделать:
 
+- установить данные серверов в ./data
 - задеплоить этот проект как Static Site
-- добавить переменные окружения
 - настроить CORS на поднимаемых сайтах
 
-### Переменные окружения | Environment Variables
+### Настройки сервиса | Environment Variables
 
 | Environment Variables | Value                                                                           |
 | --------------------- | ------------------------------------------------------------------------------- |
-| VUE_APP_TIMER_DELAY   | `870000`                                                                        |
-| VUE_APP_SERVERS_DATA  | `[{name:'service-name',endpoint:'https://your-website.onrender.com/api/path'}]` |
+| TIMER_DELAY           | `870000`                                                                        |
+| SERVERS_DATA          | `[{name:'service-name',endpoint:'https://your-website.onrender.com/api/path'}]` |

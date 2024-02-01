@@ -1,15 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 
-const SERVERS = process.env.VUE_APP_SERVERS_DATA || null;
-// пример переменной окружения (Enviroment Variables)
-// [
-//   {
-//     name: 'your-project-name',
-//     endpoint: 'https://your-website.onrender.com/api/path',
-//   },
-// ];
-const TIMER_DELAY = process.env.VUE_APP_TIMER_DELAY || null;
+import { SERVERS, TIMER_DELAY } from './data';
 
 let intervalFetch = null;
 let intervalTimer = null;
