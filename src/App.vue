@@ -50,6 +50,10 @@ const startIntervals = () => {
   serversFetch();
   intervalFetch = setInterval(async () => {
     serversFetch();
+    resetTimerInterval();
+    intervalTimer = setInterval(() => {
+      secondsPassed.value++;
+    }, 1000);
   }, TIMER_DELAY);
 };
 
