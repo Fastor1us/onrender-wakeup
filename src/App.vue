@@ -9,7 +9,7 @@ const SERVERS = process.env.VUE_APP_SERVERS_DATA || null;
 //     endpoint: 'https://your-website.onrender.com/api/path',
 //   },
 // ];
-const TIMER_DELAY = process.env.VUE_APP_SERVERS_DATA || null;
+const TIMER_DELAY = process.env.VUE_APP_TIMER_DELAY || null;
 
 let intervalFetch = null;
 let intervalTimer = null;
