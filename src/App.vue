@@ -13,7 +13,8 @@ const fetchStatus = ref('');
 const resetStats = () => {
   if (!SERVERS) return;
   for (const server of SERVERS) {
-    endpointStats.value[server.endpoint] = 0;
+    endpointStats.value[server.endpoint].resolve = 0;
+    endpointStats.value[server.endpoint].reject = 0;
   }
   requestCount.value = 0;
 };
@@ -29,9 +30,13 @@ const serversFetch = async () => {
   fetchStatus.value = 'fetching...';
   for (const server of SERVERS) {
     try {
-      const response = await fetch(server.endpoint);
+      const response = await fetch(server.endpoint)
+        .then((res) => console.log(res))
+        .catch((error) => console.log(error));
       if (response.ok) {
-        endpointStats.value[server.endpoint]++;
+        endpointStats.value[server.endpoint].resolve++;
+      } else {
+        endpointStats.value[server.endpoint].reject++;
       }
     } catch (error) {
       console.log(error);
@@ -94,9 +99,21 @@ const timeRamaining = computed(() => {
         <p>Request Count: {{ requestCount }}</p>
         <p>{{ fetchStatus }}</p>
       </div>
+      <p style="margin: 0">
+        <span class="resolve"> resolve </span>
+        /
+        <span class="reject"> reject </span>
+      </p>
       <ul>
         <li v-for="server in SERVERS" :key="server.endpoint">
-          {{ server.name }}: {{ endpointStats[server.endpoint] }}
+          {{ server.name }}:
+          <span class="resolve">
+            {{ endpointStats[server.endpoint].resolve }}
+          </span>
+          /
+          <span class="reject">
+            {{ endpointStats[server.endpoint].reject }}
+          </span>
         </li>
       </ul>
     </div>
@@ -110,11 +127,22 @@ const timeRamaining = computed(() => {
       <a href="https://github.com/Fastor1us/onrender-wakeup">README.md</a>
     </p>
   </section>
+  <footer>
+    2024 @
+    <a
+      href="https://github.com/Fastor1us/onrender-wakeup"
+      target="_blank"
+      rel="noreferrer"
+      class="link"
+    >
+      github
+    </a>
+  </footer>
 </template>
 
 <style>
 body {
-  background-color: rgb(114, 129, 124);
+  background-color: rgb(114, 105, 197);
   color: white;
   font-size: 20px;
 }
@@ -148,5 +176,19 @@ body {
 
 .statistics {
   margin-top: 20px;
+}
+
+.resolve {
+  color: rgb(147, 243, 147);
+  font-weight: bold;
+}
+
+.reject {
+  color: rgb(253, 201, 201);
+  font-weight: bold;
+}
+
+.link {
+  color: rgb(0, 255, 157);
 }
 </style>
