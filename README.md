@@ -4,13 +4,16 @@
 
 Что нужно сделать:
 
-- установить данные серверов в ./data
 - задеплоить этот проект как Static Site
+- добавить переменные окружения
 - настроить CORS на поднимаемых сайтах
+- открываем сайт, запускаем службу, оставляем вкладку открытой
 
 ### Настройки сервиса | Environment Variables
 
-| Environment Variables | Value                                                                           |
-| --------------------- | ------------------------------------------------------------------------------- |
-| TIMER_DELAY           | `870000`                                                                        |
-| SERVERS_DATA          | `[{name:'service-name',endpoint:'https://your-website.onrender.com/api/path'}]` |
+| Environment variable      | Value                                                  |
+| ------------------------- | ------------------------------------------------------ |
+| VUE_APP_TIMER_DELAY       | `870000`                                               |
+| VUE_APP_WAKE_UP_GAME2CUBE | `https://game2cube-backend.onrender.com/user/avatars`  |
+| VUE_APP_WAKE_UP_PORTFOLIO | `https://portfolio-okir-backend.onrender.com/projects` |
+| VUE_APP_WAKE_UP_SHORT1FY  | `https://short1fy-backend.onrender.com/redirect/qwert` |

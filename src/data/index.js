@@ -1,13 +1,9 @@
 
-export const TIMER_DELAY = 870000;
+export const TIMER_DELAY = process.env.VUE_APP_TIMER_DELAY || 870000;
 
-export const SERVERS = [
-  {
-    name: 'game2cube',
-    endpoint: 'https://game2cube-backend.onrender.com/user/avatars',
-  },
-  {
-    name: 'portfolio',
-    endpoint: 'https://portfolio-okir-backend.onrender.com/projects',
-  },
-];
+export const SERVERS = Object.entries(process.env)
+  .filter(([key]) => key.startsWith('VUE_APP_WAKE_UP_'))
+  .map(([key, value]) => ({
+    name: key.slice(16),
+    endpoint: value
+  }));

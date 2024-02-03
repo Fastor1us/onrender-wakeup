@@ -10,13 +10,14 @@ const endpointStats = ref({});
 const secondsPassed = ref(0);
 const fetchStatus = ref('');
 
-const resetEndpointStats = () => {
+const resetStats = () => {
   if (!SERVERS) return;
   for (const server of SERVERS) {
     endpointStats.value[server.endpoint] = 0;
   }
+  requestCount.value = 0;
 };
-resetEndpointStats();
+resetStats();
 
 const resetTimerInterval = () => {
   clearInterval(intervalTimer);
@@ -42,7 +43,7 @@ const serversFetch = async () => {
 
 const startIntervals = () => {
   if (intervalFetch) return;
-  resetEndpointStats();
+  resetStats();
   if (intervalTimer) resetTimerInterval();
   intervalTimer = setInterval(() => {
     secondsPassed.value++;
