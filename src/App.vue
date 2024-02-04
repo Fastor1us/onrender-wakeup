@@ -38,14 +38,13 @@ const serversFetch = async () => {
   fetchStatus.value = 'fetching...';
   for (const server of SERVERS) {
     try {
-      const response = await fetch(server.endpoint)
-        .then((res) => console.log(res))
-        .catch((error) => console.log(error));
-      if (response.ok) {
-        endpointStats[server.name].resolve++;
-      } else {
-        endpointStats[server.name].reject++;
-      }
+      await fetch(server.endpoint).then((res) => {
+        if (res.ok) {
+          endpointStats[server.name].resolve++;
+        } else {
+          endpointStats[server.name].reject++;
+        }
+      });
     } catch (error) {
       console.log(error);
       endpointStats[server.name].reject++;
