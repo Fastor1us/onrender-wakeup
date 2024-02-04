@@ -1,22 +1,28 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, reactive } from 'vue';
 
-import { SERVERS, TIMER_DELAY } from './data';
+import { TIMER_DELAY, SERVERS } from './data';
 
 let intervalFetch = null;
 let intervalTimer = null;
 const requestCount = ref(0);
-const endpointStats = ref({});
+const endpointStats = reactive(
+  SERVERS.reduce((acc, server) => {
+    acc[server.name] = {
+      resolve: 0,
+      reject: 0,
+    };
+    return acc;
+  }, {})
+);
 const secondsPassed = ref(0);
 const fetchStatus = ref('');
 
 const resetStats = () => {
   if (!SERVERS) return;
   for (const server of SERVERS) {
-    endpointStats.value[server.endpoint] = {
-      resolve: 0,
-      reject: 0,
-    };
+    endpointStats[server.name].resolve = 0;
+    endpointStats[server.name].reject = 0;
   }
   requestCount.value = 0;
 };
@@ -36,12 +42,13 @@ const serversFetch = async () => {
         .then((res) => console.log(res))
         .catch((error) => console.log(error));
       if (response.ok) {
-        endpointStats.value[server.endpoint].resolve++;
+        endpointStats[server.name].resolve++;
       } else {
-        endpointStats.value[server.endpoint].reject++;
+        endpointStats[server.name].reject++;
       }
     } catch (error) {
       console.log(error);
+      endpointStats[server.name].reject++;
     }
   }
   requestCount.value++;
@@ -107,14 +114,14 @@ const timeRamaining = computed(() => {
         <span class="reject"> reject </span>
       </p>
       <ul>
-        <li v-for="server in SERVERS" :key="server.endpoint">
+        <li v-for="server in SERVERS" :key="server.name">
           {{ server.name }}:
           <span class="resolve">
-            {{ endpointStats[server.endpoint].resolve }}
+            {{ endpointStats[server.name].resolve }}
           </span>
           /
           <span class="reject">
-            {{ endpointStats[server.endpoint].reject }}
+            {{ endpointStats[server.name].reject }}
           </span>
         </li>
       </ul>
