@@ -150,7 +150,7 @@ const timeRamaining = computed(() => {
 
 <style>
 body {
-  background-color: rgb(114, 105, 197);
+  background-color: #57556d;
   color: white;
   font-size: 20px;
 }
