@@ -13,8 +13,10 @@ const fetchStatus = ref('');
 const resetStats = () => {
   if (!SERVERS) return;
   for (const server of SERVERS) {
-    endpointStats.value[server.endpoint].resolve = 0;
-    endpointStats.value[server.endpoint].reject = 0;
+    endpointStats.value[server.endpoint] = {
+      resolve: 0,
+      reject: 0,
+    };
   }
   requestCount.value = 0;
 };
